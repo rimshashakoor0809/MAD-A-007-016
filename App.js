@@ -14,6 +14,8 @@ import Home from './src/Screens/Home';
 import Login from './src/Screens/Login';
 import Details from './src/Screens/Details';
 import Register from './src/Screens/Register';
+import CompanyDetails from './src/Screens/CompanyDetails';
+import Resume from './src/Screens/Resume';
 
 /* $FlowFixMe[missing-local-annot] The type annotation(s) required by Flow's
  * LTI update could not be added via codemod */
@@ -26,6 +28,8 @@ export default function App() {
         <Stack.Screen name="Register" component={Register} />
         <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="Details" component={Details} />
+        <Stack.Screen name="CompanyDetails" component={CompanyDetails} />
+        <Stack.Screen name="Resume" component={Resume} />
       </Stack.Navigator>
     </NavigationContainer>
   );

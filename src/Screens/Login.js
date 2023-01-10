@@ -8,9 +8,32 @@ import {
   ScrollView,
   TouchableOpacity,
   KeyboardAvoidingView,
+  AsyncStorage
 } from 'react-native';
-
-export default function Login({navigation}) {
+import { useState } from 'react';
+// import AsyncStorage from '@react-native-community/async-storage';
+export default function Login({ navigation }) {
+  [username, setUsername] = useState('');
+  [password, setPassword] = useState('');
+  const _getUserCredentials = async () => {
+    try {
+      let user = await AsyncStorage.getItem('User_key');
+      console.log(user);
+      let pass = await AsyncStorage.getItem('Pass_key');
+      console.log(pass);
+      if (user === username && pass === password) {
+        alert('Account Login Successfully');
+        navigation.navigate('Home');
+        setUsername('');
+        setPassword('');
+      }
+      else {
+        alert('failed to Login');
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
   return (
     <KeyboardAvoidingView style={styles.loginContainer}>
       <View style={styles.logoContainer}>
@@ -32,6 +55,8 @@ export default function Login({navigation}) {
           <TextInput
             style={styles.txtInput}
             placeholder="Enter your username or email"
+            value={username}
+            onChangeText={setUsername}
           />
         </View>
 
@@ -40,7 +65,9 @@ export default function Login({navigation}) {
             <Text style={styles.label}>password</Text>
             <Text style={styles.labelLink}>Forgot password?</Text>
           </View>
-          <TextInput style={styles.txtInput} placeholder="********" />
+          <TextInput style={styles.txtInput}
+            placeholder="********"
+            value={password} onChangeText={setPassword}/>
         </View>
 
         <View style={styles.formControls}>
@@ -51,7 +78,7 @@ export default function Login({navigation}) {
         </View>
 
         <View style={styles.formControls}>
-          <TouchableOpacity style={styles.loginBtn} onPress={()=>navigation.navigate('Home')}>
+          <TouchableOpacity style={styles.loginBtn} onPress={() => _getUserCredentials()}>
             <Text style={styles.BtnText}>Sign in</Text>
           </TouchableOpacity>
         </View>

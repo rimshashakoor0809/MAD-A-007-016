@@ -37,7 +37,8 @@ local.properties
 node_modules/
 npm-debug.log
 yarn-error.log
-
+.prettier.js
+firebase.config.js
 # BUCK
 buck-out/
 \.buckd/

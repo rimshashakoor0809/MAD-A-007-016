@@ -1,4 +1,5 @@
 import React from 'react';
+import firestore from '@react-native-firebase/firestore';
 import {
   Text,
   View,
@@ -8,8 +9,58 @@ import {
   ScrollView,
   TouchableOpacity,
 } from 'react-native';
+import { useEffect, useState } from 'react';
 
-export default function Home({navigation}) {
+export default function Home({ navigation }) {
+  const [job, setJob] = useState([]);
+  const [company, setCompany] = useState([]);
+  useEffect(() => {
+    getJob();
+    getCompany();
+     
+  }, []);
+
+  const getJob = async () => {
+    try {
+      const jobCollection = await firestore()
+        .collection('jobs')
+        .onSnapshot(querySnapshot => {
+          const jobList = [];
+          querySnapshot.forEach(doc => {
+            jobList.push({
+              ...doc.data(),
+              key: doc.id
+            });
+          });
+
+          setJob(jobList);
+        });
+  
+    } catch (e) {
+      console.log(e);
+    }
+  }
+  const getCompany = async () => {
+    try {
+      const companyCollection = await firestore()
+        .collection('companies')
+        .onSnapshot(querySnapshot => {
+          const companyList = [];
+          querySnapshot.forEach(doc => {
+            companyList.push({
+              ...doc.data(),
+              key: doc.id
+            });
+          });
+
+          setCompany(companyList);
+        });
+
+    } catch (e) {
+      console.log(e);
+    }
+  }
+  
   return (
     <ScrollView style={styles.container}>
       <View style={styles.header}>
@@ -69,113 +120,37 @@ export default function Home({navigation}) {
       </View>
 
       <ScrollView horizontal={true} style={styles.jobContainer}>
-        <View style={styles.jobCard}>
-          <View style={styles.jobIconContainer}>
-            <Image
-              style={styles.jobIcon}
-              source={require('../Images/snack-icon.png')}
-            />
-            <Image
-              style={styles.jobIcon}
-              source={require('../Images/bookmark.png')}
-            />
+        {job.map((item,index)=>{
+          return <View style={styles.jobCard} key={index}>
+            <View style={styles.jobIconContainer}>
+              <Image
+                style={styles.jobIcon}
+                source={require('../Images/snack-icon.png')}
+              />
+              <Image
+                style={styles.jobIcon}
+                source={require('../Images/bookmark.png')}
+              />
+            </View>
+            <View style={styles.jobHeading} >
+              <Text style={styles.jobCompany}> {item.company}</Text>
+              <Text style={styles.jobTitle}> { item.title}</Text>
+              <Text style={styles.jobLocation}> { item.city}, {item.country}</Text>
+              <Text style={styles.jobType}> { item.type}</Text>
+            </View>
+            <View style={styles.jobInfo}>
+              <Text style={styles.jobUploadedTime}>{ item.publishedDate.toString()}</Text>
+              <TouchableOpacity
+                onPress={() => navigation.navigate('Details', {
+                  data: item
+                })}
+                style={styles.jobApplyButton}>
+                <Text style={styles.jobApplytext}>Apply</Text>
+              </TouchableOpacity>
+            </View>
           </View>
-          <View style={styles.jobHeading}>
-            <Text style={styles.jobCompany}> Google LLC</Text>
-            <Text style={styles.jobTitle}> Sr. UX Designer</Text>
-            <Text style={styles.jobLocation}> Islamabad, Pakistan</Text>
-            <Text style={styles.jobType}> Fulltime</Text>
-          </View>
-          <View style={styles.jobInfo}>
-            <Text style={styles.jobUploadedTime}>2 days ago</Text>
-            <TouchableOpacity
-              onPress={() => navigation.navigate('Details')}
-              style={styles.jobApplyButton}>
-              <Text style={styles.jobApplytext}>Apply</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
+        })}
 
-        <View style={styles.jobCard}>
-          <View style={styles.jobIconContainer}>
-            <Image
-              style={styles.jobIcon}
-              source={require('../Images/snack-icon.png')}
-            />
-            <Image
-              style={styles.jobIcon}
-              source={require('../Images/bookmark.png')}
-            />
-          </View>
-          <View style={styles.jobHeading}>
-            <Text style={styles.jobCompany}> Google LLC</Text>
-            <Text style={styles.jobTitle}> Sr. UX Designer</Text>
-            <Text style={styles.jobLocation}> Islamabad, Pakistan</Text>
-            <Text style={styles.jobType}> Fulltime</Text>
-          </View>
-          <View style={styles.jobInfo}>
-            <Text style={styles.jobUploadedTime}>2 days ago</Text>
-            <TouchableOpacity
-              onPress={() => navigation.navigate('Details')}
-              style={styles.jobApplyButton}>
-              <Text style={styles.jobApplytext}>Apply</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-
-        <View style={styles.jobCard}>
-          <View style={styles.jobIconContainer}>
-            <Image
-              style={styles.jobIcon}
-              source={require('../Images/snack-icon.png')}
-            />
-            <Image
-              style={styles.jobIcon}
-              source={require('../Images/bookmark.png')}
-            />
-          </View>
-          <View style={styles.jobHeading}>
-            <Text style={styles.jobCompany}> Google LLC</Text>
-            <Text style={styles.jobTitle}> Sr. UX Designer</Text>
-            <Text style={styles.jobLocation}> Islamabad, Pakistan</Text>
-            <Text style={styles.jobType}> Fulltime</Text>
-          </View>
-          <View style={styles.jobInfo}>
-            <Text style={styles.jobUploadedTime}>2 days ago</Text>
-            <TouchableOpacity
-              onPress={() => navigation.navigate('Details')}
-              style={styles.jobApplyButton}>
-              <Text style={styles.jobApplytext}>Apply</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-
-        <View style={styles.jobCard}>
-          <View style={styles.jobIconContainer}>
-            <Image
-              style={styles.jobIcon}
-              source={require('../Images/snack-icon.png')}
-            />
-            <Image
-              style={styles.jobIcon}
-              source={require('../Images/bookmark.png')}
-            />
-          </View>
-          <View style={styles.jobHeading}>
-            <Text style={styles.jobCompany}> Google LLC</Text>
-            <Text style={styles.jobTitle}> Sr. UX Designer</Text>
-            <Text style={styles.jobLocation}> Islamabad, Pakistan</Text>
-            <Text style={styles.jobType}> Fulltime</Text>
-          </View>
-          <View style={styles.jobInfo}>
-            <Text style={styles.jobUploadedTime}>2 days ago</Text>
-            <TouchableOpacity
-              onPress={() => navigation.navigate('Details')}
-              style={styles.jobApplyButton}>
-              <Text style={styles.jobApplytext}>Apply</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
       </ScrollView>
 
       <View style={styles.sectionContainer}>
@@ -184,113 +159,40 @@ export default function Home({navigation}) {
       </View>
 
       <ScrollView horizontal={true} style={styles.jobContainer}>
-        <View style={styles.jobCard}>
-          <View style={styles.jobIconContainer}>
-            <Image
-              style={styles.jobIcon}
-              source={require('../Images/snack-icon.png')}
-            />
-            <Image
-              style={styles.jobIcon}
-              source={require('../Images/bookmark.png')}
-            />
-          </View>
-          <View style={styles.jobHeading}>
-            <Text style={styles.jobCompany}> Google LLC</Text>
-            <Text style={styles.jobTitle}> Sr. UX Designer</Text>
-            <Text style={styles.jobLocation}> Islamabad, Pakistan</Text>
-            <Text style={styles.jobType}> Fulltime</Text>
-          </View>
-          <View style={styles.jobInfo}>
-            <Text style={styles.jobUploadedTime}>2 days ago</Text>
-            <TouchableOpacity
-              onPress={() => navigation.navigate('Details')}
-              style={styles.jobApplyButton}>
-              <Text style={styles.jobApplytext}>Apply</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
+        <ScrollView horizontal={true} style={styles.jobContainer}>
+          {job.map((item, index) => {
+            return <View style={styles.jobCard} key={index}>
+              <View style={styles.jobIconContainer}>
+                <Image
+                  style={styles.jobIcon}
+                  source={require('../Images/snack-icon.png')}
+                />
+                <Image
+                  style={styles.jobIcon}
+                  source={require('../Images/bookmark.png')}
+                />
+              </View>
+              <View style={styles.jobHeading} >
+                <Text style={styles.jobCompany}> {item.company}</Text>
+                <Text style={styles.jobTitle}> {item.title}</Text>
+                <Text style={styles.jobLocation}> {item.city}, {item.country}</Text>
+                <Text style={styles.jobType}> {item.type}</Text>
+              </View>
+              <View style={styles.jobInfo}>
+                <Text style={styles.jobUploadedTime}>{item.publishedDate.toString()}</Text>
+                <TouchableOpacity
+                  onPress={() => navigation.navigate('Details', {
+                    data: job
+                  })}
+                  style={styles.jobApplyButton}>
+                  <Text style={styles.jobApplytext}>Apply</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          })}
 
-        <View style={styles.jobCard}>
-          <View style={styles.jobIconContainer}>
-            <Image
-              style={styles.jobIcon}
-              source={require('../Images/snack-icon.png')}
-            />
-            <Image
-              style={styles.jobIcon}
-              source={require('../Images/bookmark.png')}
-            />
-          </View>
-          <View style={styles.jobHeading}>
-            <Text style={styles.jobCompany}> Google LLC</Text>
-            <Text style={styles.jobTitle}> Sr. UX Designer</Text>
-            <Text style={styles.jobLocation}> Islamabad, Pakistan</Text>
-            <Text style={styles.jobType}> Fulltime</Text>
-          </View>
-          <View style={styles.jobInfo}>
-            <Text style={styles.jobUploadedTime}>2 days ago</Text>
-            <TouchableOpacity
-              onPress={() => navigation.navigate('Details')}
-              style={styles.jobApplyButton}>
-              <Text style={styles.jobApplytext}>Apply</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
+        </ScrollView>
 
-        <View style={styles.jobCard}>
-          <View style={styles.jobIconContainer}>
-            <Image
-              style={styles.jobIcon}
-              source={require('../Images/snack-icon.png')}
-            />
-            <Image
-              style={styles.jobIcon}
-              source={require('../Images/bookmark.png')}
-            />
-          </View>
-          <View style={styles.jobHeading}>
-            <Text style={styles.jobCompany}> Google LLC</Text>
-            <Text style={styles.jobTitle}> Sr. UX Designer</Text>
-            <Text style={styles.jobLocation}> Islamabad, Pakistan</Text>
-            <Text style={styles.jobType}> Fulltime</Text>
-          </View>
-          <View style={styles.jobInfo}>
-            <Text style={styles.jobUploadedTime}>2 days ago</Text>
-            <TouchableOpacity
-              onPress={() => navigation.navigate('Details')}
-              style={styles.jobApplyButton}>
-              <Text style={styles.jobApplytext}>Apply</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-
-        <View style={styles.jobCard}>
-          <View style={styles.jobIconContainer}>
-            <Image
-              style={styles.jobIcon}
-              source={require('../Images/snack-icon.png')}
-            />
-            <Image
-              style={styles.jobIcon}
-              source={require('../Images/bookmark.png')}
-            />
-          </View>
-          <View style={styles.jobHeading}>
-            <Text style={styles.jobCompany}> Google LLC</Text>
-            <Text style={styles.jobTitle}> Sr. UX Designer</Text>
-            <Text style={styles.jobLocation}> Islamabad, Pakistan</Text>
-            <Text style={styles.jobType}> Fulltime</Text>
-          </View>
-          <View style={styles.jobInfo}>
-            <Text style={styles.jobUploadedTime}>2 days ago</Text>
-            <TouchableOpacity
-              onPress={() => navigation.navigate('Details')}
-              style={styles.jobApplyButton}>
-              <Text style={styles.jobApplytext}>Apply</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
       </ScrollView>
 
       <View style={styles.sectionContainer}>
@@ -299,29 +201,17 @@ export default function Home({navigation}) {
       </View>
 
       <ScrollView horizontal={true} style={styles.jobContainer}>
-        <View style={styles.companyCard}>
-          <Image
-            style={styles.companyImg}
-            source={require('../Images/amazon.png')}
-            resizeMode="contain"
-          />
-        </View>
+        {company.map((item, index) => {
+          return <TouchableOpacity style={styles.companyCard} key={index}
+            onPress={() => navigation.navigate('CompanyDetails', {
+              data: item
+            })}>
+            <Text style={styles.companyText}>{item.title}</Text>
+          </TouchableOpacity>
+        })}
+        
 
-        <View style={styles.companyCard}>
-          <Image
-            style={styles.companyImg}
-            source={require('../Images/hacker.png')}
-            resizeMode="contain"
-          />
-        </View>
-
-        <View style={styles.companyCard}>
-          <Image
-            style={styles.companyImg}
-            source={require('../Images/google.png')}
-            resizeMode="contain"
-          />
-        </View>
+        
       </ScrollView>
 
       <View style={styles.footer}>
@@ -568,6 +458,17 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     marginBottom: 15,
     padding: 10,
+    backgroundColor:'white',
+    width: 140,
+    height: 140,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems:'center'
+  },
+  companyText: {
+    color: '#14213d',
+    fontWeight: 'bold',
+    fontSize:16
   },
   companyImg: {
     width: 140,

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1047646989390",
+    "project_id": "irenicdb",
+    "storage_bucket": "irenicdb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1047646989390:android:05da8042ba36e4fcbda71f",
+        "android_client_info": {
+          "package_name": "com.jobrenic"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1047646989390-itu2n2jk9sui8i508aoj0hfjlfic7qoe.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDv_FanHXfkD-oJFKlFRXVxv4bD8qKiEHo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1047646989390-itu2n2jk9sui8i508aoj0hfjlfic7qoe.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

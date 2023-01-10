@@ -9,85 +9,47 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
-export default function Details({ navigation,route }) {
+export default function CompanyDetail({ navigation, route }) {
   const { data } = route.params;
-  console.log(`My jobs: ${JSON.stringify(data)}`);
+  console.log(`My COmpanies: ${JSON.stringify(data)}`);
   const jobs = data;
   return (
     <ScrollView style={styles.mainContainer}>
       <View style={styles.companyContainer}>
         <Image
-          style={styles.btnImg}
-          source={require('../Images/wishlist.png')}
-          resizeMode="contain"
-        />
-        <Image
           style={styles.companyImg}
           source={require('../Images/skyline.png')}
           resizeMode="contain"
         />
-        <TouchableOpacity onPress={() => navigation.navigate('Resume')}>
-          <Image
-            style={styles.btnImg}
-            source={require('../Images/resume.png')}
-            resizeMode="contain"
-          />
-        </TouchableOpacity>
-        
       </View>
       <View style={styles.jobInfoContainer}>
-        <Text style={styles.companyTitle}>{jobs.title }</Text>
-        <Text style={styles.companysubtitleHeading}>{ jobs.company}</Text>
+        <Text style={styles.companyTitle}>{jobs.title}</Text>
+        <Text style={styles.companysubtitleHeading}>{jobs.website}</Text>
         <Text style={styles.companysubHeading}>📌</Text>
-        <Text style={styles.companysubHeading}>{jobs.city},{jobs.country }</Text>
-      </View>
-      <View style={styles.publishedContainer}>
-        <View style={styles.publishContainer}>
-          <Text style={styles.published}>PUBLISHED</Text>
-          <Text style={styles.publishedText}>{ jobs.publishedDate}</Text>
-        </View>
-        <View style={styles.appliedContainer}>
-          <Text style={styles.applied}>APPLY BY</Text>
-          <Text style={styles.appliedText}>{ jobs.lastDate}</Text>
-        </View>
+        <Text style={styles.companysubHeading}>{jobs.address}</Text>
       </View>
       <View style={styles.tableContainer}>
         <View style={styles.tableRow}>
-          <Text style={styles.tablejobs1}>Industry</Text>
-          <Text style={styles.tablejobs}>{jobs.industry }</Text>
+          <Text style={styles.tablejobs1}>Website</Text>
+          <Text style={styles.tablejobs}>{jobs.website}</Text>
         </View>
         <View style={styles.tableRow}>
-          <Text style={styles.tablejobs1}>Job Type</Text>
-          <Text style={styles.tablejobs}>{ jobs.type}</Text>
+          <Text style={styles.tablejobs1}>Email</Text>
+          <Text style={styles.tablejobs}>{jobs.email}</Text>
         </View>
         <View style={styles.tableRow}>
-          <Text style={styles.tablejobs1}>Career Level</Text>
-          <Text style={styles.tablejobs}>{ jobs.careerLevel}</Text>
+          <Text style={styles.tablejobs1}>Phone Number</Text>
+          <Text style={styles.tablejobs}>{jobs.phoneNumber}</Text>
         </View>
         <View style={styles.tableRow}>
-          <Text style={styles.tablejobs1}>Gender</Text>
-          <Text style={styles.tablejobs}>{ jobs.Gender}</Text>
+          <Text style={styles.tablejobs1}>Address</Text>
+          <Text style={styles.tablejobs}>{jobs.address}</Text>
         </View>
       </View>
       <View style={styles.descriptionContainer}>
         <Text style={styles.jobtitle}>JOB DESCRIPTION</Text>
         <Text style={styles.jobdesc}>
-          {jobs.description }
-        </Text>
-        <Text style={styles.jobtitle}>JOB DUTIES AND RESPONSIBILITIES</Text>
-        <Text style={styles.jobdesc}>
-          {jobs.responsibilities}
-        </Text>
-        <Text style={styles.jobtitle}>
-          REQUIRED QUALIFICATIONS AND EXPERIENCE
-        </Text>
-        <Text style={styles.jobdesc}>
-          { jobs.experience}
-        </Text>
-       
-        <Text style={styles.jobtitle}>BENEFITS WE OFFER</Text>
-        <Text style={styles.jobdesc}>
-          { jobs.Benefits}
+          {jobs.description}
         </Text>
       </View>
 
@@ -171,7 +133,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginLeft: 60,
-    
+
   },
   appliedContainer: {
     display: 'flex',
@@ -249,13 +211,14 @@ const styles = StyleSheet.create({
     marginLeft: 20,
     marginTop: 10,
     marginRight: 20,
+    marginBottom:80
   },
   footer: {
     display: 'flex',
     flexDirection: 'column',
     backgroundColor: '#14213d',
     width: 1000,
-    marginTop: 20,
+    marginTop: 50,
   },
   footerItem: {
     borderEndWidth: 1,
@@ -272,7 +235,7 @@ const styles = StyleSheet.create({
     marginTop: 30,
     borderTopWidth: 1,
     borderColor: '#d6d6d6'
-    
+
   },
   copyright: {
     color: '#14213d',
